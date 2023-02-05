@@ -54,4 +54,4 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./config.json:/config.json
-    command: --interval 30 --debug --trace
+    command: --interval 120 --cleanup
