@@ -1,0 +1,57 @@
+version: "3"
+services:
+  db:
+    image: ghcr.io/akdasa-studios/shlokas-db:latest
+    restart: always
+    expose:
+      - 5984
+    ports:
+      - "5984:5984"
+    env_file:
+      - environment.env
+      - environment.local.env
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5984/"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  auth:
+    image: ghcr.io/akdasa-studios/shlokas-auth:latest
+    restart: always
+    expose:
+      - 3000
+    env_file:
+      - environment.env
+      - environment.local.env
+    depends_on:
+      db:
+        condition: service_healthy
+
+
+  landing:
+    image: ghcr.io/akdasa-studios/shlokas-landing:latest
+    expose:
+      - 80
+
+  balancer:
+    image: ghcr.io/akdasa-studios/shlokas-balancer:latest
+    ports:
+      - 80:80
+      - 443:443
+    env_file:
+      - environment.env
+      - environment.local.env
+    depends_on:
+      - db
+      - auth
+      - landing
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+
+  watchtower:
+    image: containrrr/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./config.json:/config.json
+    command: --interval 30 --debug --trace
