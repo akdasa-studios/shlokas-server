@@ -15,7 +15,7 @@ This server organizes several docker containers to run the application:
 ## Watchtower
 [Watchtower](https://containrrr.dev/watchtower/) is a tool that automatically updates running docker containers. It is configured to run on the host machine and update the containers on the docker network. It requires an authentication token to access the docker registry. The token is stored in the `config.json` file in the root directory of the project.
 
-```json
+```json5
 // config.json
 {
   "auths": {
@@ -44,3 +44,14 @@ SHLOKAS_USERS_DB=users_shlokas
 SHLOKAS_EMAIL=email@from.app
 SHLOKAS_EMAIL_PASSWORD=password
 ```
+
+# Installation
+
+1. Clone the repository
+2. Modify the `config.json` and create an `environment.local.env` file
+3. Run `docker-compose up -d` to start the server
+
+
+# Updating
+
+All the containers are updated automatically by the watchtower. But if a new container was added, you need to update the `docker-compose.yml` and cut the release. This will automatically update the repository on the server and the server will be restarted.
