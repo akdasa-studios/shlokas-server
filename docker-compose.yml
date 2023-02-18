@@ -28,14 +28,15 @@ services:
       db:
         condition: service_healthy
 
-
   landing:
     image: ghcr.io/akdasa-studios/shlokas-landing:latest
+    restart: always
     expose:
       - 80
 
   balancer:
     image: ghcr.io/akdasa-studios/shlokas-balancer:latest
+    restart: always
     ports:
       - 80:80
       - 443:443
