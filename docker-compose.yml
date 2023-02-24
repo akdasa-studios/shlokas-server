@@ -34,6 +34,14 @@ services:
     expose:
       - 80
 
+  content:
+    image: ghcr.io/akdasa-studios/shlokas-content:latest
+    restart: always
+    expose:
+      - 80
+    volumes:
+      - ./content:/usr/share/nginx/html
+
   balancer:
     image: ghcr.io/akdasa-studios/shlokas-balancer:latest
     restart: always
