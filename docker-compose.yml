@@ -16,6 +16,15 @@ services:
       timeout: 10s
       retries: 5
 
+  db-bootstrap:
+    image: ghcr.io/akdasa-studios/shlokas-db-bootstrap:latest
+    env_file:
+      - environment.env
+      - environment.local.env
+    depends_on:
+      db:
+        condition: service_healthy
+
   auth:
     image: ghcr.io/akdasa-studios/shlokas-auth:latest
     restart: always
