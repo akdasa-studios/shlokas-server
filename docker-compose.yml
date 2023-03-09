@@ -59,6 +59,15 @@ services:
     expose:
       - 80
 
+  totp:
+    image: ghcr.io/akdasa-studios/shlokas-totp:latest
+    restart: always
+    expose:
+      - 8080
+    env_file:
+      - environment.env
+      - environment.local.env
+
   balancer:
     image: ghcr.io/akdasa-studios/shlokas-balancer:latest
     restart: always
