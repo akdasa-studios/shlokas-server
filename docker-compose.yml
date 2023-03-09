@@ -51,6 +51,12 @@ services:
     volumes:
       - ./content:/usr/share/nginx/html
 
+  admin:
+    image: ghcr.io/akdasa-studios/shlokas-admin:latest
+    restart: always
+    expose:
+      - 80
+
   balancer:
     image: ghcr.io/akdasa-studios/shlokas-balancer:latest
     restart: always
@@ -64,6 +70,7 @@ services:
       - db
       - auth
       - landing
+      - admin
     volumes:
       - /etc/letsencrypt:/etc/letsencrypt:ro
 
