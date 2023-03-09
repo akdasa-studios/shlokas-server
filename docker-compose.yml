@@ -81,4 +81,4 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./config.json:/config.json
-    command: --interval 300 --cleanup
+    command: --interval 300 --cleanup --include-stopped
