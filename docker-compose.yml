@@ -51,7 +51,7 @@ services:
     expose:
       - 80
     volumes:
-      - ./content:/usr/share/nginx/html
+      - ./content:/app/content
 
   admin:
     image: ghcr.io/akdasa-studios/shlokas-admin:latest
@@ -82,6 +82,8 @@ services:
       - auth
       - landing
       - admin
+      - totp
+      - content
     volumes:
       - /etc/letsencrypt:/etc/letsencrypt:ro
 
