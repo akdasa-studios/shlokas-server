@@ -1,3 +1,4 @@
 environment.local.env
 db/
 content/
+.DS_Store

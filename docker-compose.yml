@@ -5,8 +5,6 @@ services:
     restart: always
     expose:
       - 5984
-    ports:
-      - "5984:5984"
     env_file:
       - environment.env
       - environment.local.env
@@ -58,6 +56,9 @@ services:
     restart: always
     expose:
       - 80
+    env_file:
+      - environment.env
+      - environment.local.env
 
   totp:
     image: ghcr.io/akdasa-studios/shlokas-totp:latest

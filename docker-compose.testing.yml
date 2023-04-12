@@ -1,0 +1,10 @@
+version: "3"
+services:
+  mail:
+    restart: on-failure
+    image: dockage/mailcatcher:0.8.2
+    expose:
+      - "1025"
+    ports:
+      - "1080:1080"
+      - "1025:1025"
