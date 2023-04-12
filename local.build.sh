@@ -1,4 +1,4 @@
-export GITHUB_TOKEN=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
+export GITHUB_TOKEN=PUT_YOU_GITHUB_TOKEN_HERE
 
 (cd ../shlokas-db && docker compose build)
 (cd ../shlokas-auth && docker compose build)
