@@ -1,0 +1,6 @@
+version: "3"
+services:
+  shlokas:
+    image: shlokas:latest
+    expose:
+      - 80
