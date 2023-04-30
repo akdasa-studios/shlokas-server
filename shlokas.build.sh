@@ -1,4 +1,8 @@
-export GITHUB_TOKEN=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
+#!/bin/sh
+if [[ -z "${GITHUB_TOKEN}" ]]; then
+    echo "Error: GITHUB_TOKEN is not set"
+    exit 1
+fi
 
 (cd ../shlokas-db && docker compose build) && \
 (cd ../shlokas-db && docker compose -f ./docker-compose.aux.yml build) && \

@@ -14,7 +14,6 @@ This repository organizes several docker containers to run the application:
 6. [Admin](https://github.com/akdasa-studios/shlokas-admin) – admin server for the application
 
 ## Development
-
 There are two ways to run the application in development mode. The first way is to use prebuilt docker images. The second way is to clone all the repositories and run them locally.
 
 ### Local Docker Images
@@ -25,12 +24,24 @@ In this case, you will be able to modify the code and see the changes immediatel
 gh search repos --owner akdasa-studios --match name shlokas --visibility public | while read -r repo _; do
   gh repo clone "$repo" "$repo"
 done
+```
 
-# build and run all the services
+#### GitHub Personal Access Token
+The GitHub Personal Access Token is required to pull the images from the GitHub Container Registry. You can create a token [here](https://github.com/settings/tokens). The token should have the following permissions:
+
+```text
+packages:read
+```
+
+After creating the token, you can set it as an environment variable. The following commands will build all the images and run the application:
+
+```sh
+export GITHUB_TOKEN=your_token
 cd ./akdasa-studios/shlokas-server
 ./shlokas.build.sh
 ./shlokas.run.sh dev.local
 ```
+
 
 ### Prebuilt Docker Images
 In this case, you can run the application without cloning any repositories. Use this method if you are going to work on a mobile application only.
