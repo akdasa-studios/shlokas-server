@@ -42,6 +42,12 @@ cd ./akdasa-studios/shlokas-server
 ./shlokas.run.sh dev.local
 ```
 
+‼️ Note: Without token you won't be able to build the images and you will get the following error:
+
+```
+#0 39.47 npm ERR! code E401
+#0 39.47 npm ERR! 401 Unauthorized - GET https://npm.pkg.github.com/[OMITED] - unauthenticated: User cannot be authenticated with the token provided.
+```
 
 ### Prebuilt Docker Images
 In this case, you can run the application without cloning any repositories. Use this method if you are going to work on a mobile application only.
