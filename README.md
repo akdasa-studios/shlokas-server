@@ -4,15 +4,56 @@
     </p>
 </a>
 
-# Configuration
-This server organizes several docker containers to run the application:
+This repository organizes several docker containers to run the application:
 
 1. [Database](https://github.com/akdasa-studios/shlokas-db) – database for storing user data
 2. [Authentication](https://github.com/akdasa-studios/shlokas-auth) – authentication server for user login
 3. [Landing](https://github.com/akdasa-studios/shlokas-landing) – landing page for the application
 4. [Balancer](https://github.com/akdasa-studios/shlokas-balancer) – load balancer for the application
+5. [Balancer](https://github.com/akdasa-studios/shlokas-content) – content server for the application
+6. [Admin](https://github.com/akdasa-studios/shlokas-admin) – admin server for the application
 
-## Watchtower
+## Development
+
+There are two ways to run the application in development mode. The first way is to use prebuilt docker images. The second way is to clone all the repositories and run them locally.
+
+### Local Docker Images
+In this case, you will be able to modify the code and see the changes immediately. The only downside is that you will have to build the images yourself. Use this method if you are going to work on backend services. The following commands will clone all the repositories and build all the images.
+
+```sh
+# clone all the repos
+gh search repos --owner akdasa-studios --match name shlokas --visibility public | while read -r repo _; do
+  gh repo clone "$repo" "$repo"
+done
+
+# build and run all the services
+cd ./akdasa-studios/shlokas-server
+./shlokas.build.sh
+./shlokas.run.sh dev.local
+```
+
+### Prebuilt Docker Images
+In this case, you can run the application without cloning any repositories. Use this method if you are going to work on a mobile application only.
+
+```sh
+gh repo clone akdasa-studios/shlokas-server
+cd ./shlokas-server
+./shlokas.run.sh dev
+```
+
+
+## Production
+
+In production, all the images are pulled from the GitHub Container Registry. You can run the application using the following commands.
+
+```sh
+gh repo clone akdasa-studios/shlokas-server
+cd ./shlokas-server
+./shlokas.run.sh prod
+```
+
+
+### Watchtower
 [Watchtower](https://containrrr.dev/watchtower/) is a tool that automatically updates running docker containers. It is configured to run on the host machine and update the containers on the docker network. It requires an authentication token to access the docker registry. The token is stored in the `config.json` file in the root directory of the project.
 
 ```json5
@@ -43,15 +84,10 @@ SHLOKAS_USERS_DB=users_shlokas
 # Email settings for sending emails
 SHLOKAS_EMAIL=email@from.app
 SHLOKAS_EMAIL_PASSWORD=password
+
+BALANCER_ENV=dev
 ```
 
-# Installation
-
-1. Clone the repository
-2. Modify the `config.json` and create an `environment.local.env` file
-3. Run `docker-compose up -d` to start the server
-
-
-# Updating
+## Updating
 
 All the containers are updated automatically by the watchtower. But if a new container was added, you need to update the `docker-compose.yml` and cut the release. This will automatically update the repository on the server and the server will be restarted.

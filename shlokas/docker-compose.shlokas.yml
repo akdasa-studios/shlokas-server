@@ -1,4 +1,7 @@
 version: "3"
+name: 'shlokas'
+
+
 services:
   db:
     image: ghcr.io/akdasa-studios/shlokas-db:latest
@@ -6,24 +9,14 @@ services:
     expose:
       - 5984
     env_file:
-      - environment.env
-      - environment.local.env
+      - ../environment.env
+      - ../environment.local.env
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:5984/"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
     volumes:
-      - ./db:/opt/couchdb/data
-
-  db-bootstrap:
-    image: ghcr.io/akdasa-studios/shlokas-db-bootstrap:latest
-    env_file:
-      - environment.env
-      - environment.local.env
-    depends_on:
-      db:
-        condition: service_healthy
+      - ../_data/db:/opt/couchdb/data
+    networks:
+      - shlokas
 
   auth:
     image: ghcr.io/akdasa-studios/shlokas-auth:latest
@@ -31,17 +24,23 @@ services:
     expose:
       - 3000
     env_file:
-      - environment.env
-      - environment.local.env
+      - ../environment.env
+      - ../environment.local.env
     depends_on:
       db:
         condition: service_healthy
+    networks:
+      - shlokas
+    healthcheck:
+      test: ["CMD", "sh", "/app/shlokas-auth/.container/healthcheck.sh"]
 
   landing:
     image: ghcr.io/akdasa-studios/shlokas-landing:latest
     restart: always
     expose:
       - 80
+    networks:
+      - shlokas
 
   content:
     image: ghcr.io/akdasa-studios/shlokas-content:latest
@@ -49,7 +48,9 @@ services:
     expose:
       - 80
     volumes:
-      - ./content:/app/content
+      - ../_data/content:/app/content
+    networks:
+      - shlokas
 
   admin:
     image: ghcr.io/akdasa-studios/shlokas-admin:latest
@@ -57,8 +58,10 @@ services:
     expose:
       - 80
     env_file:
-      - environment.env
-      - environment.local.env
+      - ../environment.env
+      - ../environment.local.env
+    networks:
+      - shlokas
 
   totp:
     image: ghcr.io/akdasa-studios/shlokas-totp:latest
@@ -66,8 +69,10 @@ services:
     expose:
       - 8080
     env_file:
-      - environment.env
-      - environment.local.env
+      - ../environment.env
+      - ../environment.local.env
+    networks:
+      - shlokas
 
   balancer:
     image: ghcr.io/akdasa-studios/shlokas-balancer:latest
@@ -76,21 +81,29 @@ services:
       - 80:80
       - 443:443
     env_file:
-      - environment.env
-      - environment.local.env
+      - ../environment.env
+      - ../environment.local.env
     depends_on:
-      - db
-      - auth
-      - landing
-      - admin
-      - totp
-      - content
+      db:
+        condition: service_healthy
+      auth:
+        condition: service_healthy
+      landing:
+        condition: service_started
+      admin:
+        condition: service_started
+      totp:
+        condition: service_started
+      content:
+        condition: service_started
     volumes:
       - /etc/letsencrypt:/etc/letsencrypt:ro
+    networks:
+      - shlokas
+    healthcheck:
+      test: ["CMD", "sh", "/app/shlokas-balancer/.container/healthcheck.sh"]
 
-  watchtower:
-    image: containrrr/watchtower
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ./config.json:/config.json
-    command: --interval 300 --cleanup --include-stopped
+
+networks:
+  shlokas:
+    name: shlokas
