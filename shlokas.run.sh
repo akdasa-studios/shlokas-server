@@ -22,5 +22,6 @@ print_header "Shlokas"
 print_section "Running shlokas for ${ENV}..."
 [[ -f environment.local.env ]] || touch environment.local.env
 docker compose -f ./shlokas/docker-compose.shlokas.yml -f ./shlokas/docker-compose.shlokas.${ENV}.yml up --wait && \
-docker compose -f ./aux/docker-compose.aux.yml up --wait && \
+print_section "Running aux for ${ENV}..." && \
+docker compose -f ./aux/docker-compose.aux.yml -f ./aux/docker-compose.aux.${ENV}.yml up --wait && \
 docker compose -f ./shlokas/docker-compose.shlokas.yml -f ./shlokas/docker-compose.shlokas.${ENV}.yml logs -f
