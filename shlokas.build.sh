@@ -13,4 +13,4 @@ fi
 (cd ../shlokas-totp && docker compose build) && \
 (cd ../shlokas-balancer && docker compose build) && \
 (cd ../shlokas-e2e && docker compose build) && \
-(cd ../shlokas && docker compose build --build-arg GITHUB_TOKEN=${GITHUB_TOKEN})
+(cd ../shlokas && docker compose build --build-arg GITHUB_TOKEN=${GITHUB_TOKEN} --build-arg ENVIRONMENT=${1:-dev})

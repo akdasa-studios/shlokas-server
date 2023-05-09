@@ -1,5 +1,26 @@
 version: "3"
 services:
+  db:
+    image: shlokas-database
+
+  auth:
+    image: shlokas-auth
+
+  landing:
+    image: shlokas-landing
+
+  content:
+    image: shlokas-content
+
+  admin:
+    image: shlokas-admin
+
+  totp:
+    image: shlokas-totp
+
+  balancer:
+    image: shlokas-balancer
+
   mail:
     restart: on-failure
     image: dockage/mailcatcher:0.8.2
@@ -8,8 +29,17 @@ services:
     ports:
       - "1080:1080"
       - "1025:1025"
+    networks:
+      - shlokas
 
   shlokas:
-    image: shlokas:latest
-    expose:
-      - 80
+    image: shlokas-app
+    depends_on:
+      - db
+      - auth
+      - content
+      - balancer
+    ports:
+      - "8080:80"
+    networks:
+      - shlokas
