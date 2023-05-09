@@ -32,7 +32,7 @@ services:
     networks:
       - shlokas
 
-  app:
+  shlokas:
     image: shlokas-app
     depends_on:
       - db
@@ -40,6 +40,6 @@ services:
       - content
       - balancer
     ports:
-      - "80:80"
+      - "8080:80"
     networks:
       - shlokas

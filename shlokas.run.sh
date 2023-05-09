@@ -25,6 +25,6 @@ docker compose -f ./shlokas/docker-compose.shlokas.yml -f ./shlokas/docker-compo
 print_section "Running aux for ${ENV}..." && \
 docker compose -f ./aux/docker-compose.aux.yml -f ./aux/docker-compose.aux.${ENV}.yml up --wait
 
-if [[ $2 -eq "logs" ]] ; then
+if [[ $2 = "logs" ]]; then
     docker compose -f ./shlokas/docker-compose.shlokas.yml -f ./shlokas/docker-compose.shlokas.${ENV}.yml logs -f
 fi

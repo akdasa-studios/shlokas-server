@@ -1,0 +1,12 @@
+version: "3"
+name: 'shlokas-aux'
+
+
+services:
+  db-bootstrap:
+    image: shlokas-aux-db-bootstrap
+
+
+networks:
+  shlokas:
+    name: shlokas
