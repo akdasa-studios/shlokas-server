@@ -13,8 +13,3 @@ services:
     image: shlokas:latest
     expose:
       - 80
-
-  auth:
-    environment:
-      - EMAIL_HOST_LINK=http://balancer
-
