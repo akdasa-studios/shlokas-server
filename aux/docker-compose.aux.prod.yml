@@ -1,0 +1,12 @@
+version: "3"
+name: 'shlokas-aux'
+
+
+services:
+  db-bootstrap:
+      image: ghcr.io/akdasa-studios/shlokas-db-bootstrap:latest
+
+
+networks:
+  shlokas:
+    name: shlokas
