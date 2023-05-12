@@ -1,4 +1,6 @@
 version: "3"
+
+
 services:
   db:
     image: shlokas-database
@@ -29,5 +31,17 @@ services:
     ports:
       - "1080:1080"
       - "1025:1025"
+    networks:
+      - shlokas
+
+  shlokas:
+    image: shlokas-app
+    depends_on:
+      - db
+      - auth
+      - content
+      - balancer
+    ports:
+      - "8080:80"
     networks:
       - shlokas

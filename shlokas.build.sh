@@ -4,6 +4,8 @@ if [[ -z "${GITHUB_TOKEN}" ]]; then
     exit 1
 fi
 
+echo "Building for environment: ${1:-dev}"
+
 (cd ../shlokas-db && docker compose build) && \
 (cd ../shlokas-db && docker compose -f ./docker-compose.aux.yml build) && \
 (cd ../shlokas-auth && docker compose build --build-arg GITHUB_TOKEN=${GITHUB_TOKEN}) && \
