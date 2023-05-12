@@ -99,7 +99,7 @@ services:
       content:
         condition: service_started
     volumes:
-      - /etc/letsencrypt:/etc/letsencrypt:ro
+      - /_data/balancer:/app/shlokas-balancer/certs:ro
     networks:
       - shlokas
     healthcheck:
