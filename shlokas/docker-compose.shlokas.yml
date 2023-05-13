@@ -99,7 +99,7 @@ services:
       content:
         condition: service_started
     volumes:
-      - ../_data/balancer:/app/shlokas-balancer/certs:ro
+      - ../_data/balancer:/app/shlokas-balancer/.data:ro
     networks:
       - shlokas
     healthcheck:
