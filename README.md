@@ -23,7 +23,7 @@ done
 ```
 
 #### GitHub Personal Access Token
-The GitHub Personal Access Token is required to pull the images from the GitHub Container Registry. You can create a token [here](https://github.com/settings/tokens). The token should have te `packages:read` permission. After creating the token, you can set it as an environment variable. The following commands will build all the images and run the application:
+The GitHub Personal Access Token is required to pull the images from the GitHub Container Registry. You can create a token [here](https://github.com/settings/tokens). The token should have the `packages:read` permission. After creating the token, you can set it as an environment variable. The following commands will build all the images and run the application:
 
 ```sh
 export GITHUB_TOKEN=your_token
